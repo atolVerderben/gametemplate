@@ -31,10 +31,11 @@ func NewGame(w, h float64) (game *tentsuyu.Game, err error) {
 		return loadAudio()
 	})
 
-	game.SetGameState(NewGameMain(game))
 	game.SetGameStateLoop(func() error {
 		switch game.GetGameState().Msg() {
 		case GameStateMsgMain:
+			game.SetGameState(NewGameMain(game))
+		case tentsuyu.GameStateMsgNotStarted: //Use this message to load the initial game
 			game.SetGameState(NewGameMain(game))
 		default:
 
